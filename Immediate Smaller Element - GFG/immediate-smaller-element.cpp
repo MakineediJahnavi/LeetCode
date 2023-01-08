@@ -8,13 +8,21 @@ using namespace std;
 class Solution{
 public:	
 	void immediateSmaller(vector<int>&arr, int n) {
-	    for(int i=0; i<n-1; i++) {
-	        if(arr[i+1]<arr[i])
-	            arr[i]=arr[i+1];
-	        else
-	           arr[i]=-1;
+	    stack<int> s;
+	    for(int i=n-1; i>=0; i--) {
+	        if(s.empty()){
+	            s.push(arr[i]);
+	            arr[i]=-1;}
+	        else if(arr[i]>s.top()){
+	            int x=s.top();
+	            s.push(arr[i]);
+	            arr[i]=x;
+	        }
+	        else {
+	            s.push(arr[i]);
+	            arr[i]=-1;
+	        }
 	    }
-	    arr[n-1]=-1;
 	}
 
 };
