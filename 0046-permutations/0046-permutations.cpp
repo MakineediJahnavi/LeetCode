@@ -1,26 +1,19 @@
 class Solution {
 private:
-    void permutations(vector<int> nums,vector<vector<int>> &ans,vector<int> temp,vector<int> freq) {
-        if(temp.size()==nums.size()) {
-            ans.push_back(temp);
+    void permutations(vector<int> nums,vector<vector<int>> &ans,int ind) {
+        if(ind==nums.size()) {
+            ans.push_back(nums);
             return ;
         }
-        for(int i=0; i<nums.size(); i++) {
-            if(freq[i]==0) {
-                freq[i]=1;
-                temp.push_back(nums[i]);
-                permutations(nums,ans,temp,freq);
-                freq[i]=0;
-                temp.pop_back();
-            }
+        for(int i=ind; i<nums.size(); i++) {
+            swap(nums[i],nums[ind]);
+            permutations(nums,ans,ind+1);
         }
     }
 public:
     vector<vector<int>> permute(vector<int>& nums) {
         vector<vector<int>> ans;
-        vector<int> temp;
-        vector<int> freq(nums.size(),0);
-        permutations(nums,ans,temp,freq);
+        permutations(nums,ans,0);
         return ans;
     }
 };
