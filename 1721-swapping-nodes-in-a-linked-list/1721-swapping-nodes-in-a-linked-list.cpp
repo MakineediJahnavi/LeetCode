@@ -20,20 +20,18 @@ public:
         return n;
     }
     ListNode* swapNodes(ListNode* head, int k) {
-        ListNode *p,*q;
-        p=head; q=head;
-        for(int i=1; i<k; i++) {
-            if(p)
-                p=p->next;
+        ListNode *p=head,*q=head,*temp;
+        k--;
+        while(k--) {
+            p=p->next;
         }
-        int n=length(head);
-        for(int i=1; i<=n-k; i++) {
-            if(q)
-                q=q->next;
+        temp = p;
+        p=p->next;
+        while(p) {
+            p=p->next;
+            q=q->next;
         }
-        int temp = p->val;
-        p->val = q->val;
-        q->val = temp;
+        swap(temp->val,q->val);
         return head;
     }
 };
