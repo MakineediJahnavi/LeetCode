@@ -3,31 +3,63 @@
 using namespace std;
 
 // } Driver Code Ends
+
+class DisjointSet
+{
+    vector<int> size;
+    vector<int> parent;
+    public:
+    DisjointSet(int V) {
+        parent.resize(V);
+        size.resize(V,0);
+        for(int i=0; i<V; i++) {
+            parent[i]=i;
+        }
+    }
+        int u_p(int n) {
+            if(n==parent[n])
+                return n;
+            return parent[n]=u_p(parent[n]);
+        }
+        
+        void unionBySize(int u, int v) {
+            if(u_p(u)==u_p(v))
+                return;
+            if(size[u_p(u)]<size[u_p(v)]){
+                parent[u_p(u)]=u_p(v);
+                size[u_p(v)]+=size[u_p(u)];
+            }
+            else {
+                parent[u_p(v)]=u_p(u);
+                size[u_p(u)]+=size[u_p(v)];
+            }
+        }
+};
 class Solution
 {   
-    typedef pair<int,pair<int,int>> p;
 	public:
 	//Function to find sum of weights of edges of the Minimum Spanning Tree.
     int spanningTree(int V, vector<vector<int>> adj[])
     {
-        vector<int> vis(V,0);
-        priority_queue<p,vector<p>,greater<p>> pq;
-        pq.push({0,{0,-1}});
-        int weight=0;
-        while(!pq.empty()) {
-            int u=pq.top().second.first;
-            int v=pq.top().second.second;
-            int wt=pq.top().first;
-            pq.pop();
-            if(!vis[u]) {
-                vis[u]=1;
-                weight+=wt;
-                for(auto it:adj[u]) {
-                    pq.push({it[1],{it[0],u}});
-                }
+        vector<pair<int,pair<int,int>>> edges;
+        for(int i=0; i<V; i++) {
+            for(auto it: adj[i]) {
+                edges.push_back({it[1],{i,it[0]}});
             }
         }
-        return weight;
+        sort(edges.begin(),edges.end());
+        int mst=0;
+        DisjointSet ds(V);
+        for(auto it:edges) {
+            int u=it.second.first;
+            int v=it.second.second;
+            int wt=it.first;
+            if(ds.u_p(u)!=ds.u_p(v)) {
+                mst+=wt;
+                ds.unionBySize(u,v);
+            }
+        }
+        return mst;
     }
 };
 
