@@ -11,22 +11,22 @@ class Solution{
 public:
     bool isSubsetSum(vector<int>arr, int sum){
         int n=arr.size();
-        vector<vector<bool>> dp(n,vector<bool>(sum+1,0));
-        for(int i=0; i<n; i++)
-            dp[i][0]=true;
-        dp[0][arr[0]]=true;
+        vector<bool> dp(sum+1,0);
+        dp[arr[0]]=true;
+        dp[0]=true;
         for(int i=1; i<n; i++) {
+            vector<bool> temp(sum+1,0);
+            temp[0]=true;
             for(int j=1; j<=sum; j++) {
-                if(dp[i][j]!=0)
-                    return dp[i][j];
-                bool noTake=dp[i-1][j];
+                bool noTake=dp[j];
                 bool take = false;
                 if(j>=arr[i])
-                    take=dp[i-1][j-arr[i]];
-                dp[i][j]=take|noTake;
+                    take=dp[j-arr[i]];
+                temp[j]=take|noTake;
             }
+            dp=temp;
         }
-        return dp[n-1][sum];
+        return dp[sum];
     }
 };
 
