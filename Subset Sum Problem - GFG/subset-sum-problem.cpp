@@ -7,26 +7,26 @@ using namespace std;
 // } Driver Code Ends
 //User function template for C++
 
-class Solution{  
-private:
-    bool func(int ind,int target,vector<int> &arr,vector<vector<int>> &dp) {
-        if(target==0)
-            return true;
-        if(ind==0)
-            return arr[ind]==target;
-        if(dp[ind][target]!=-1)
-            return dp[ind][target];
-        bool noTake=func(ind-1,target,arr,dp);
-        bool take = false;
-        if(target>=arr[ind])
-            take=func(ind-1,target-arr[ind],arr,dp);
-        return dp[ind][target]=take||noTake;
-    }
+class Solution{
 public:
     bool isSubsetSum(vector<int>arr, int sum){
         int n=arr.size();
-        vector<vector<int>> dp(n,vector<int>(sum+1,-1));
-        return func(arr.size()-1,sum,arr,dp);
+        vector<vector<bool>> dp(n,vector<bool>(sum+1,0));
+        for(int i=0; i<n; i++)
+            dp[i][0]=true;
+        dp[0][arr[0]]=true;
+        for(int i=1; i<n; i++) {
+            for(int j=1; j<=sum; j++) {
+                if(dp[i][j]!=0)
+                    return dp[i][j];
+                bool noTake=dp[i-1][j];
+                bool take = false;
+                if(j>=arr[i])
+                    take=dp[i-1][j-arr[i]];
+                dp[i][j]=take|noTake;
+            }
+        }
+        return dp[n-1][sum];
     }
 };
 
