@@ -1,21 +1,24 @@
 class Solution {
-public:
-    void dfs(vector<vector<int>> &graph, vector<int> &vis, int x) {
-        vis[x]=1;
-        for(int i=0; i<graph.size(); i++) {
-            if(graph[x][i]==1 && vis[i]==0)
-                dfs(graph,vis,i);
+private:
+    void dfs(int node,vector<int> &vis,vector<vector<int>> &isConnected){
+        vis[node]=1;
+        int n=isConnected.size();
+        for(int i=0; i<n; i++){
+            if(!vis[i] && isConnected[node][i])
+                dfs(i,vis,isConnected);
         }
     }
+public:
     int findCircleNum(vector<vector<int>>& isConnected) {
-        vector<int> visited(isConnected.size(),0);
-        int provinces=0;
-            for(int i=0; i<isConnected.size(); i++) {
-                if(visited[i]==0){
-                    dfs(isConnected,visited,i);
-                    provinces++;
-                }
+        int n=isConnected.size();
+        vector<int> vis(n,0);
+        int count=0;
+        for(int i=0; i<n; i++) {
+            if(!vis[i]){
+                dfs(i,vis,isConnected);
+                count++;
             }
-        return provinces;
+        }
+        return count;
     }
 };
