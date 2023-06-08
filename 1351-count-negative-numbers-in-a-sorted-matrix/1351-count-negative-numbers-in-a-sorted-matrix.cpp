@@ -4,13 +4,13 @@ public:
         int n=grid.size();
         int m=grid[0].size();
         int neg=0;
-        for(int i=0; i<n; i++) {
-            for(int j=m-1; j>=0; j--) {
-                if(grid[i][j]>=0)
-                    break;
-                else {
-                    neg++;
-                }
+        int row=n-1,col=0;
+        while(row>=0 && col<m){
+            if(grid[row][col]>=0)
+                col++;
+            else {
+                neg+=m-col;
+                row--;
             }
         }
         return neg;
