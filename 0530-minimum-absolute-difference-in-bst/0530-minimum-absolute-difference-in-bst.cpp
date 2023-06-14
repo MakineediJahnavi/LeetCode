@@ -10,17 +10,24 @@
  * };
  */
 class Solution {
-    int num=-1;
-    int ans=INT_MAX;
 public:
     int getMinimumDifference(TreeNode* root) {
-        if(root->left)
-            getMinimumDifference(root->left);
-        if(num>=0)
-            ans=min(ans,abs(root->val-num));
-        num=root->val;
-        if(root->right)
-            getMinimumDifference(root->right);
+        stack<TreeNode *> s;
+        TreeNode *pre=NULL;
+        TreeNode *cur=root;
+        int ans=INT_MAX;
+        while(cur!=NULL||!s.empty()){
+            while(cur!=NULL){
+            s.push(cur);
+            cur=cur->left;
+            }
+            TreeNode *t=s.top();
+            s.pop();
+            if(pre!=NULL)
+                ans=min(ans,t->val-pre->val);
+            pre=t;
+            cur=t->right;
+        }
         return ans;
     }
 };
