@@ -7,17 +7,12 @@ public:
         int i=0,j=0,sum=0;
         while(i<n) {
             sum+=nums[i];
-            if(sum<target) {
-                i++;
+            while(sum>=target){
+                ans=min(i-j+1,ans);
+                sum-=nums[j];
+                j++;
             }
-            else {
-                while(sum>=target){
-                    ans=min(i-j+1,ans);
-                    sum-=nums[j];
-                    j++;
-                }
-                i++;
-            }
+            i++;
         }
         if(ans==INT_MAX)
             return 0;
