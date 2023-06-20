@@ -8,25 +8,21 @@ using namespace std;
 // User function Template for C++
 
 class Solution{
-private:
-    int fun(int i,int j,int arr[],vector<vector<int>> &dp) {
-        if(i==j)
-            return dp[i][j]=0;
-        if(dp[i][j]!=-1)
-            return dp[i][j];
-        int steps=1e9;
-        for(int k=i; k<=j-1; k++) {
-            int ans=arr[i-1]*arr[k]*arr[j]+fun(i,k,arr,dp)+fun(k+1,j,arr,dp);
-            steps=min(steps,ans);
-        }
-        return dp[i][j]=steps;
-    }
 public:
-    int matrixMultiplication(int N, int arr[])
+    int matrixMultiplication(int n, int arr[])
     {
-        vector<vector<int>> dp(N,vector<int>(N,-1));
-        fun(1,N-1,arr,dp);
-        return dp[1][N-1];
+        vector<vector<int>> dp(n,vector<int>(n,0));
+        for(int i=n-1; i>=0; i--) {
+            for(int j=i+1; j<n; j++) {
+                int steps=1e9;
+                for(int k=i; k<=j-1; k++) {
+                    int ans=arr[i-1]*arr[k]*arr[j]+dp[i][k]+dp[k+1][j];
+                steps=min(steps,ans);
+                }
+                dp[i][j]=steps;
+            }
+        }
+        return dp[1][n-1];
     }
 };
 
