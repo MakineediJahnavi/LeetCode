@@ -14,32 +14,22 @@ public:
         ListNode *p=new ListNode();
         ListNode *q=p;
         int c=0;
-        while(l1!=NULL && l2!=NULL) {
+        while(l1!=NULL || l2!=NULL || c) {
             p->next=new ListNode();
             p=p->next;
-            p->val=(l1->val+l2->val+c)%10;
-            c=(l1->val+l2->val+c)/10;
-            l1=l1->next;
-            l2=l2->next;
+            int sum=0;
+            if(l1) {
+                sum+=l1->val;
+                l1=l1->next;
+            }
+            if(l2) {
+                sum+=l2->val;
+                l2=l2->next;
+            }
+            sum+=c;
+            p->val=sum%10;
+            c=sum/10;
         }
-        while(l1!=NULL) {
-            p->next=new ListNode();
-            p=p->next;
-            p->val=(l1->val+c)%10;
-            c=(l1->val+c)/10;
-            l1=l1->next;
-        }
-        while(l2!=NULL) {
-            p->next=new ListNode();
-            p=p->next;
-            p->val=(l2->val+c)%10;
-            c=(l2->val+c)/10;
-            l2=l2->next;
-        }
-        if(c){
-            p->next=new ListNode();
-            p=p->next;
-            p->val=c;}
         return q->next;
     }
 };
