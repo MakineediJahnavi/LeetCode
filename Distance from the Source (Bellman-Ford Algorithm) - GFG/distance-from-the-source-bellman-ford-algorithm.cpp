@@ -17,8 +17,7 @@ class Solution {
         dist[S]=0;
         for(int i=0; i<V-1; i++) {
             for(auto it:edges) {
-                if(dist[it[0]]!=1e8 && dist[it[0]]+it[2]<dist[it[1]])
-                    dist[it[1]]=dist[it[0]]+it[2];
+                    dist[it[1]]=min(dist[it[1]],dist[it[0]]+it[2]);
             }
         }
         for(auto it:edges){
