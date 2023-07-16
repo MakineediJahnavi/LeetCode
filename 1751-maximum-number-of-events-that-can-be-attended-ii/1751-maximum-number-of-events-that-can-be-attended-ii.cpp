@@ -2,7 +2,7 @@ class Solution {
 private:
     int nextindex(int i,vector<pair<int,pair<int,int>>> &m){
         int end=m[i].second.first;
-        int l=0,r=m.size();
+        int l=i+1,r=m.size();
         while(l<r){
             int mid=(l+r)/2;
             if(m[mid].first>end){
