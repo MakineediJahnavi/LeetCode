@@ -11,39 +11,48 @@
 class Solution {
 public:
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-        stack<int> x,y;
-        while(l1!=NULL) {
-            x.push(l1->val);
-            l1=l1->next;
+        int x=0,y=0;
+        ListNode *q=NULL,*p=l1;
+        while(p!=NULL) {
+            ListNode *temp=p->next;
+            p->next=q;
+            q=p;
+            p=temp;
         }
-        while(l2!=NULL) {
-            y.push(l2->val);
-            l2=l2->next;
+        l1=q;
+        q=NULL; p=l2;
+        while(p!=NULL) {
+            ListNode *temp=p->next;
+            p->next=q;
+            q=p;
+            p=temp;
         }
+        l2=q;
         ListNode *head=NULL;
         int c=0;
-        while(!x.empty() && !y.empty()){
-            ListNode *temp=new ListNode((x.top()+y.top()+c)%10);
-            c=(x.top()+y.top()+c)/10;
-            x.pop(); y.pop();
+        while(l1!=NULL && l2!=NULL) {
+            ListNode *temp=new ListNode((l1->val+l2->val+c)%10);
+            c=(l1->val+l2->val+c)/10;
+            l1=l1->next;
+            l2=l2->next;
             temp->next=head;
             head=temp;
         }
-        while(!y.empty()){
-            ListNode *temp=new ListNode((y.top()+c)%10);
-            c=(y.top()+c)/10;
-            y.pop();
+        while(l1!=NULL) {
+            ListNode *temp=new ListNode((l1->val+c)%10);
+            c=(l1->val+c)/10;
+            l1=l1->next;
             temp->next=head;
             head=temp;
         }
-        while(!x.empty()){
-            ListNode *temp=new ListNode((x.top()+c)%10);
-            c=(x.top()+c)/10;
-            x.pop();
+        while(l2!=NULL) {
+            ListNode *temp=new ListNode((l2->val+c)%10);
+            c=(l2->val+c)/10;
+            l2=l2->next;
             temp->next=head;
             head=temp;
         }
-        if(c!=0) {
+        if(c) {
             ListNode *temp=new ListNode(c);
             temp->next=head;
             head=temp;
