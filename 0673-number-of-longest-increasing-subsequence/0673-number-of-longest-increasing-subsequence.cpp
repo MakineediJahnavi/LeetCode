@@ -7,16 +7,16 @@ public:
         int maxlen=1;
         for(int i=0; i<n; i++) {
             for(int j=0; j<i; j++) {
-                if(nums[i]>nums[j]) {
-                    if (dp[i]<1+dp[j]) {
+                if(nums[i]>nums[j]){
+                    if(1+dp[j]>dp[i]) {
                         dp[i]=1+dp[j];
                         ct[i]=ct[j];
                     }
-                    else if (dp[i]==1+dp[j])
+                    else if(dp[j]+1==dp[i])
                         ct[i]+=ct[j];
                 }
+                maxlen=max(maxlen,dp[i]);
             }
-            maxlen=max(maxlen,dp[i]);
         }
         int ans=0;
         for(int i=0; i<n; i++) {
