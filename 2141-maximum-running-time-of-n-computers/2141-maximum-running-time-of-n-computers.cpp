@@ -1,16 +1,4 @@
 class Solution {
-private:
-    bool isPossible(int n,vector<int> &batteries,int time) {
-        long long sum=0;
-        for(auto it: batteries) {
-            sum+=it;
-            if(sum>=time) {
-                sum-=time;
-                n--;
-            }
-        }
-        return n<=0;
-    }
 public:
     long long maxRunTime(int n, vector<int>& batteries) {
         long long sum=0;
@@ -18,17 +6,14 @@ public:
             sum+=it;
         }
         sort(batteries.begin(),batteries.end());
-        long long l=0,r=sum/n;
-        long long ans=0;
-        while(l<=r) {
-            long long mid=(l+r)/2;
-            if(isPossible(n,batteries,mid)){
-                ans=mid;
-                l=mid+1;
+        for(int i=batteries.size()-1; i>=0; i--) {
+            if(batteries[i]>sum/n) {
+                sum-=batteries[i];
+                n--;
             }
             else
-                r=mid-1;
+                break;
         }
-        return ans;
+        return sum/n;
     }
 };
